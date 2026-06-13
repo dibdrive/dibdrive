@@ -1,10 +1,551 @@
 <!DOCTYPE html>
-<html>
+<html lang="he" dir="rtl">
 <head>
-<meta name="google-site-verification" content="4Br3gqeSx4u294F" />
-<title>DibDrive</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DibDrive – אפליקציית לימוד תיאוריה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --night: #0B1D3A;
+    --road: #1A4B8C;
+    --headlight: #F5A623;
+    --glow: #FFD16A;
+    --white: #F8FAFF;
+    --muted: #8AA3C2;
+    --card-bg: #122744;
+    --radius: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--night);
+    color: var(--white);
+    overflow-x: hidden;
+    direction: rtl;
+  }
+
+  /* ── ROAD ANIMATION ── */
+  .road-wrap {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .road-stripe {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--headlight) 0px,
+      var(--headlight) 40px,
+      transparent 40px,
+      transparent 80px
+    );
+    height: 200%;
+    top: -100%;
+    animation: drive 2.5s linear infinite;
+    opacity: 0.18;
+  }
+  @keyframes drive {
+    from { transform: translateX(-50%) translateY(0); }
+    to   { transform: translateX(-50%) translateY(80px); }
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: var(--headlight);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .logo span { color: var(--headlight); }
+  .badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--headlight);
+    border: 1px solid var(--headlight);
+    border-radius: 20px;
+    padding: 4px 12px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 5;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px 80px;
+  }
+  .hero-eyebrow {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--headlight);
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-size: clamp(2.4rem, 7vw, 5rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -2px;
+    margin-bottom: 22px;
+    max-width: 760px;
+  }
+  .hero-title .accent {
+    color: var(--headlight);
+    display: block;
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.65;
+    margin-bottom: 48px;
+    font-weight: 400;
+  }
+
+  /* ── CTA BUTTONS ── */
+  .cta-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 56px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 28px;
+    border-radius: 14px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.18s, box-shadow 0.18s;
+    cursor: pointer;
+  }
+  .btn:hover { transform: translateY(-3px); }
+  .btn-apple {
+    background: var(--white);
+    color: var(--night);
+    box-shadow: 0 4px 24px rgba(245,166,35,0.15);
+  }
+  .btn-apple:hover { box-shadow: 0 8px 32px rgba(245,166,35,0.3); }
+  .btn-google {
+    background: var(--headlight);
+    color: var(--night);
+    box-shadow: 0 4px 24px rgba(245,166,35,0.25);
+  }
+  .btn-google:hover { box-shadow: 0 8px 36px rgba(245,166,35,0.45); }
+  .btn-icon { font-size: 1.3rem; }
+  .btn-text-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+  .btn-label { font-size: 0.68rem; font-weight: 600; opacity: 0.65; letter-spacing: 0.5px; }
+  .btn-store { font-size: 1rem; font-weight: 800; }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 40px;
+    width: 100%;
+    max-width: 640px;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--headlight);
+    letter-spacing: -1px;
+    display: block;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; margin-top: 2px; }
+
+  /* ── FEATURES ── */
+  .section {
+    position: relative;
+    z-index: 5;
+    padding: 90px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--headlight);
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 48px;
+    max-width: 480px;
+    line-height: 1.15;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .feat-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .feat-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(245,166,35,0.3);
+  }
+  .feat-icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .feat-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .feat-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── LICENSES SECTION ── */
+  .licenses-section {
+    position: relative;
+    z-index: 5;
+    padding: 0 24px 90px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .licenses-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .lic-badge {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+  .lic-badge:hover { background: var(--road); }
+  .lic-letter {
+    display: inline-flex;
+    width: 28px; height: 28px;
+    background: var(--headlight);
+    color: var(--night);
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.85rem;
+  }
+
+  /* ── LANGUAGES STRIP ── */
+  .lang-strip {
+    position: relative;
+    z-index: 5;
+    background: linear-gradient(135deg, var(--road), #0d2f5e);
+    margin: 0 24px;
+    border-radius: 20px;
+    padding: 48px 40px;
+    max-width: 1052px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 90px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .lang-text { flex: 1; min-width: 220px; }
+  .lang-text h3 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  .lang-text p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+  .lang-flags {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .lang-flag {
+    font-size: 3.5rem;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+  }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 80px 24px 100px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .final-cta h2 {
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    margin-bottom: 14px;
+  }
+  .final-cta p {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 40px;
+  }
+  .final-cta .cta-group { margin-bottom: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 28px 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; }
+    .hero { padding: 48px 20px 64px; }
+    .lang-strip { padding: 32px 24px; }
+    .section { padding: 60px 20px; }
+    .licenses-section { padding: 0 20px 60px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .road-stripe { animation: none; }
+    .reveal { opacity: 1; transform: none; }
+    .btn, .feat-card { transition: none; }
+  }
+</style>
 </head>
 <body>
-DibDrive
+
+<!-- ROAD ANIMATION -->
+<div class="road-wrap" aria-hidden="true">
+  <div class="road-stripe"></div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🚗</div>
+    Dib<span>Drive</span>
+  </div>
+  <span class="badge">חינם להורדה</span>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">אפליקציית לימוד תיאוריה מספר 1</p>
+  <h1 class="hero-title">
+    עוברים מבחן תיאוריה
+    <span class="accent">בפעם הראשונה.</span>
+  </h1>
+  <p class="hero-sub">
+    מאגר שאלות מעודכן, מבחנים מלאים, תרגול לפי נושאים —
+    כל מה שצריך כדי לצאת מהמבחן עם חיוך.
+  </p>
+  <div class="cta-group">
+    <a href="https://apps.apple.com/app/dibdrive/id6777384785" class="btn btn-apple" target="_blank" rel="noopener">
+      <span class="btn-icon">🍏</span>
+      <span class="btn-text-wrap">
+        <span class="btn-label">הורד מה-</span>
+        <span class="btn-store">App Store</span>
+      </span>
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=com.dibdrive.app" class="btn btn-google" target="_blank" rel="noopener">
+      <span class="btn-icon">🤖</span>
+      <span class="btn-text-wrap">
+        <span class="btn-label">הורד מ-</span>
+        <span class="btn-store">Google Play</span>
+      </span>
+    </a>
+  </div>
+  <div class="stats-row">
+    <div class="stat">
+      <span class="stat-num">1,000+</span>
+      <span class="stat-label">שאלות במאגר</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">5</span>
+      <span class="stat-label">סוגי רישיון</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">2</span>
+      <span class="stat-label">שפות</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">iOS & Android</span>
+      <span class="stat-label">זמין בשתי הפלטפורמות</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="section reveal">
+  <p class="section-label">מה תמצא באפליקציה</p>
+  <h2 class="section-title">הכלים שצריך כדי לעבור</h2>
+  <div class="features-grid">
+    <div class="feat-card">
+      <span class="feat-icon">📚</span>
+      <h3 class="feat-title">מאגר שאלות מעודכן</h3>
+      <p class="feat-desc">אלפי שאלות שמשקפות את מה שבאמת מופיע במבחן — מעודכן בקביעות.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">📝</span>
+      <h3 class="feat-title">מבחני תיאוריה מלאים</h3>
+      <p class="feat-desc">סימולציות מבחן אמיתי עם טיימר, ניקוד, ותוצאות מיידיות בסיום.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🎯</span>
+      <h3 class="feat-title">תרגול לפי נושאים</h3>
+      <p class="feat-desc">חלוקה לפי נושאים: סימני דרך, עדיפות, מרחקים, בטיחות ועוד — מתמקדים בדיוק במה שצריך.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🔁</span>
+      <h3 class="feat-title">זיהוי שאלות חוזרות</h3>
+      <p class="feat-desc">האפליקציה מזהה אילו שאלות אתה טועה בהן שוב ושוב, ומחזירה אותן לתרגול.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🔥</span>
+      <h3 class="feat-title">רצף יומי</h3>
+      <p class="feat-desc">בני רצף של תרגול יומי ותראה איך הציונים עולים — גמיפיקציה שמשאירה אותך ממוקד.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">⚡</span>
+      <h3 class="feat-title">מצב PRO ללא פרסומות</h3>
+      <p class="feat-desc">שדרג ל-PRO לחוויה נקייה לחלוטין — ללא הפרעות, עם גישה מלאה לכל התכנים.</p>
+    </div>
+  </div>
+</div>
+
+<!-- LICENSES -->
+<div class="licenses-section reveal">
+  <p class="section-label">סוגי רישיון</p>
+  <h2 class="section-title">מתאים לכל סוג רישיון</h2>
+  <div class="licenses-grid">
+    <div class="lic-badge"><span class="lic-letter">B</span> רישיון B – רכב פרטי</div>
+    <div class="lic-badge"><span class="lic-letter">A</span> רישיון A – אופנוע</div>
+    <div class="lic-badge"><span class="lic-letter">C</span> רישיון C – משאית</div>
+    <div class="lic-badge"><span class="lic-letter">C1</span> רישיון C1 – משאית קלה</div>
+    <div class="lic-badge"><span class="lic-letter">D</span> רישיון D – אוטובוס</div>
+  </div>
+</div>
+
+<!-- LANGUAGES STRIP -->
+<div class="lang-strip reveal">
+  <div class="lang-text">
+    <h3>עברית וערבית — מהיום הראשון</h3>
+    <p>האפליקציה בנויה מהיסוד לדוברי עברית וערבית. ממשק, שאלות, והסברים — הכל בשפה שלך.</p>
+  </div>
+  <div class="lang-flags">
+    <span class="lang-flag">🇮🇱</span>
+    <span class="lang-flag">🇵🇸</span>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<section class="final-cta reveal">
+  <h2>מוכן להתחיל לתרגל?</h2>
+  <p>הורד בחינם עכשיו ותתחיל להתכונן למבחן</p>
+  <div class="cta-group">
+    <a href="https://apps.apple.com/app/dibdrive/id6777384785" class="btn btn-apple" target="_blank" rel="noopener">
+      <span class="btn-icon">🍏</span>
+      <span class="btn-text-wrap">
+        <span class="btn-label">הורד מה-</span>
+        <span class="btn-store">App Store</span>
+      </span>
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=com.dibdrive.app" class="btn btn-google" target="_blank" rel="noopener">
+      <span class="btn-icon">🤖</span>
+      <span class="btn-text-wrap">
+        <span class="btn-label">הורד מ-</span>
+        <span class="btn-store">Google Play</span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 DibDrive · דיב מנסור לימוד נהיגה · כל הזכויות שמורות</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
