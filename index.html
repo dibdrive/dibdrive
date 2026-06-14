@@ -112,6 +112,23 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;border-top:1px
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:none}
 
+/* TESTIMONIALS */
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.testi-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);padding:24px;display:flex;flex-direction:column;gap:10px;transition:transform .2s,border-color .2s}
+.testi-card:hover{transform:translateY(-4px);border-color:rgba(245,166,35,.25)}
+.testi-stars{color:var(--headlight);font-size:1rem;letter-spacing:1px}
+.testi-text{font-size:.92rem;color:var(--white);line-height:1.65;flex:1}
+.testi-author{font-size:.8rem;font-weight:700;color:var(--muted)}
+
+/* WHATSAPP FLOAT */
+.wa-btn{position:fixed;bottom:90px;left:24px;z-index:200;width:54px;height:54px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.45);text-decoration:none;transition:transform .2s,box-shadow .2s}
+.wa-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.65)}
+.wa-btn svg{width:28px;height:28px;fill:#fff}
+
+/* STICKY MOBILE CTA */
+.sticky-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(11,29,58,.96);backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,.1);padding:10px 16px;gap:10px}
+.sticky-cta .btn{flex:1;justify-content:center;padding:11px 12px;font-size:.82rem}
+
 @media(max-width:768px){
   .hero{grid-template-columns:1fr;padding:48px 20px 40px;gap:32px}
   .section{padding:60px 20px}
@@ -120,6 +137,9 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;border-top:1px
   header{padding:16px 20px}
   .final-cta{padding:60px 20px 80px}
   .carousel-track{width:200px;height:400px}
+  .sticky-cta{display:flex}
+  .wa-btn{bottom:78px}
+  body{padding-bottom:68px}
 }
 @media(prefers-reduced-motion:reduce){
   .road-stripe{animation:none}
@@ -156,9 +176,9 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;border-top:1px
       </a>
     </div>
     <div class="stats-row">
-      <div class="stat"><span class="stat-num">1,802</span><span class="stat-label">שאלות רשמיות</span></div>
-      <div class="stat"><span class="stat-num">642</span><span class="stat-label">שאלות נפוצות</span></div>
-      <div class="stat"><span class="stat-num">5</span><span class="stat-label">סוגי רישיון</span></div>
+      <div class="stat"><span class="stat-num" data-target="1802">1,802</span><span class="stat-label">שאלות רשמיות</span></div>
+      <div class="stat"><span class="stat-num" data-target="642">642</span><span class="stat-label">שאלות נפוצות</span></div>
+      <div class="stat"><span class="stat-num" data-target="5">5</span><span class="stat-label">סוגי רישיון</span></div>
     </div>
   </div>
 
@@ -258,8 +278,8 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;border-top:1px
     </div>
     <div class="feat-card">
       <span class="feat-icon">🚀</span>
-      <h3 class="feat-title">3 ימי ניסיון חינם</h3>
-      <p class="feat-desc">נסה את PRO בחינם — ללא התחייבות. ₪19.90 לחודש או ₪99 לשנה.</p>
+      <h3 class="feat-title">שדרוג PRO</h3>
+      <p class="feat-desc">גישה מלאה לכל התכנים ללא פרסומות. ₪19.90 לחודש או ₪99 לשנה.</p>
     </div>
   </div>
 </div>
@@ -289,6 +309,34 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;border-top:1px
   </div>
 </div>
 
+<!-- TESTIMONIALS -->
+<div class="section reveal">
+  <p class="section-label">מה אומרים עלינו</p>
+  <h2 class="section-title">תלמידים שעברו את המבחן</h2>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">״עברתי את התיאוריה בפעם הראשונה אחרי שבוע של תרגול באפליקציה. השאלות היו בדיוק כמו במבחן האמיתי!״</p>
+      <span class="testi-author">— מוחמד, רישיון B</span>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">״האפליקציה בערבית — סוף סוף משהו שמדבר אלינו. תרגלתי כל יום 20 דקות ועברתי בקלות.״</p>
+      <span class="testi-author">— לין, רישיון B</span>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">״הייתי נכשל כבר פעמיים. עם DibDrive הבנתי בדיוק איפה אני טועה ועברתי בפעם השלישית.״</p>
+      <span class="testi-author">— יוסף, רישיון C</span>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">״ממשק נוח, שאלות מעודכנות, ומסלול חכם שחסך לי הרבה זמן. מומלץ בחום לכולם!״</p>
+      <span class="testi-author">— שירה, רישיון A</span>
+    </div>
+  </div>
+</div>
+
 <!-- FINAL CTA -->
 <section class="final-cta reveal">
   <h2>מוכן להתחיל לתרגל?</h2>
@@ -309,7 +357,27 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;border-top:1px
   <p>© 2025 DibDrive · דיב מנסור לימוד נהיגה · 052-3132307 · כל הזכויות שמורות</p>
 </footer>
 
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/9720523132307" class="wa-btn" target="_blank" rel="noopener" aria-label="שלח הודעה בוואטסאפ">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</a>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-cta">
+  <a href="https://apps.apple.com/app/dibdrive/id6777384785" class="btn btn-apple" target="_blank" rel="noopener">
+    <span class="btn-icon">🍏</span>
+    <span class="btn-text-wrap"><span class="btn-label">הורד מה-</span><span class="btn-store">App Store</span></span>
+  </a>
+  <a href="https://play.google.com/store/apps/details?id=com.dibdrive.app" class="btn btn-google" target="_blank" rel="noopener">
+    <span class="btn-icon">🤖</span>
+    <span class="btn-text-wrap"><span class="btn-label">הורד מ-</span><span class="btn-store">Google Play</span></span>
+  </a>
+</div>
+
 <script>
+// Carousel
 const slides = document.querySelectorAll('.c-slide');
 const dots   = document.querySelectorAll('.dot');
 let cur = 0;
@@ -322,8 +390,39 @@ function goTo(n){
 }
 dots.forEach(d => d.addEventListener('click', () => goTo(parseInt(d.dataset.i))));
 setInterval(() => goTo(cur + 1), 3000);
+
+// Scroll reveal
 const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.1});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Animated counters
+function animateCounter(el, target, duration=1800){
+  const isFloat = target % 1 !== 0;
+  let start = null;
+  const step = ts => {
+    if(!start) start = ts;
+    const progress = Math.min((ts - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = Math.floor(eased * target);
+    el.textContent = val.toLocaleString('he-IL');
+    if(progress < 1) requestAnimationFrame(step);
+    else el.textContent = target.toLocaleString('he-IL');
+  };
+  requestAnimationFrame(step);
+}
+
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      const el = e.target;
+      const target = parseInt(el.dataset.target);
+      animateCounter(el, target);
+      counterObs.unobserve(el);
+    }
+  });
+}, {threshold:.5});
+
+document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
 </script>
 </body>
 </html>
