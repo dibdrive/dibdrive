@@ -4,6 +4,14 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>DibDrive – אפליקציית לימוד תיאוריה</title>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-00RGFB77YC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-00RGFB77YC');
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
@@ -98,8 +106,8 @@ header{position:relative;z-index:10;display:flex;align-items:center;justify-cont
 .lang-strip{position:relative;z-index:5;background:linear-gradient(135deg,var(--road),#0d2f5e);border-radius:20px;padding:44px 48px;max-width:1020px;margin:0 auto 80px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;border:1px solid rgba(255,255,255,.1)}
 .lang-text h3{font-size:1.5rem;font-weight:900;margin-bottom:10px}
 .lang-text p{color:var(--muted);font-size:.92rem;line-height:1.6}
-.lang-flags{display:flex;gap:16px}
-.lang-flag{font-size:3.2rem;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
+.lang-flags{display:flex;gap:16px;align-items:center}
+.lang-flag{font-size:2rem;font-weight:900;color:var(--white);letter-spacing:1px}
 
 /* FINAL CTA */
 .final-cta{position:relative;z-index:5;text-align:center;padding:80px 40px 100px;border-top:1px solid rgba(255,255,255,.07)}
@@ -304,8 +312,8 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;border-top:1px
     <p>ממשק, שאלות, והסברים — הכל בשפה שלך. בנוי לדוברי עברית וערבית כאחד.</p>
   </div>
   <div class="lang-flags">
-    <span class="lang-flag">🇮🇱</span>
-    <span class="lang-flag">🇸🇦</span>
+    <span class="lang-flag">עברית</span>
+    <span class="lang-flag">عربي</span>
   </div>
 </div>
 
